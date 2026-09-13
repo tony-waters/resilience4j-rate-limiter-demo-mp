@@ -1,0 +1,23 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: email-service
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: never
+
+resilience4j:
+  ratelimiter:
+    instances:
+      emailNotification:
+        limit-for-period: 5
+        limit-refresh-period: 10s
+        timeout-duration: 0
