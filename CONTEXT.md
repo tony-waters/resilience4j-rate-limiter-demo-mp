@@ -13,5 +13,12 @@ The recipient of an Order's notification, identified for now by email address on
 _Avoid_: User, account
 
 **Notification Outcome**:
-The result of attempting to notify a Customer that their Order was placed: `Sent`, `RateLimited`, or `Failed`. Recorded on the Order and never affects whether the Order itself was placed.
+The result of attempting to notify a Customer that their Order was placed: `Sent`, `RateLimited`, `Skipped`, or `Failed`. Recorded on the Order and never affects whether the Order itself was placed.
 _Avoid_: Email status, delivery status
+
+**RateLimited** (Notification Outcome):
+`rest-service` called `email-service` to notify the Customer, and `email-service` rejected the call because its rate limit was exhausted.
+
+**Skipped** (Notification Outcome):
+`rest-service` already knew, from the rate-limit budget `email-service` reported on an earlier response, that the call would be rejected — so it never attempted the call at all.
+_Avoid_: Pre-empted, short-circuited
